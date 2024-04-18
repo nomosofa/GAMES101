@@ -1,0 +1,22 @@
+# CMake build directory
+build/
+
+# Compiled object files
+*.o
+
+# Compiled executables
+*.exe
+*.out
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE specific files
+.vscode/
+.idea/
+*.sln
+*.vcxproj
+*.vcxproj.filters
