@@ -40,8 +40,8 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     float height = width * aspect_ratio;
     projection << 2 * zNear / width, 0, 0, 0,
         0, 2 * zNear / height, 0, 0,
-        0, 0, 2 * (zNear + zFar) / (zNear - zFar), -2 * zNear * zFar / (zNear - zFar),
-        0, 0, 1, 0;
+        0, 0, -(zNear + zFar) / (zFar - zNear), -2 * zNear * zFar / (zFar - zNear),
+        0, 0, -1, 0;
 
     return projection;
 }
