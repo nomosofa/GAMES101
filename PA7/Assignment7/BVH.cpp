@@ -109,6 +109,29 @@ Intersection BVHAccel::Intersect(const Ray &ray) const
 Intersection BVHAccel::getIntersection(BVHBuildNode *node, const Ray &ray) const
 {
     // TODO Traverse the BVH to find intersection
+    Intersection isect;
+    if (!node)
+        return isect;
+    std::array<int, 3> dirIsNeg;
+    dirIsNeg[0] = static_cast<int>(ray.direction.x < 0);
+    dirIsNeg[1] = static_cast<int>(ray.direction.y < 0);
+    dirIsNeg[2] = static_cast<int>(ray.direction.z < 0);
+
+    // check if intersect with current volume
+    if (!node->bounds.IntersectP(ray, ray.direction_inv, dirIsNeg))
+    {
+        return isect;
+    }
+    // if intersects, check recursively
+    // if leaf node, return immediately
+    if (!node->left && !node->right)
+    {
+        return node->object->getIntersection(ray);
+    }
+    // else return collided child
+    Intersection isectLeft = getIntersection(node->left, ray);
+    Intersection isectRight = getIntersection(node->right, ray);
+    return isectLeft.happened ? isectLeft : isectRight;
 }
 
 void BVHAccel::getSample(BVHBuildNode *node, float p, Intersection &pos, float &pdf)
